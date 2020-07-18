@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Travel App</title>
+<link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
+<link href="main.css" rel="stylesheet"></head>
+ <body>
+<div id = "app">
+  <div class ="holder headline"></div>
+  Travel App   </div>
+  <div class ="holder ">
+    <label for="city">Destination </label>
+    <input type="text" id="city" placeholder="Enter a city"required>
+  </div>
+  <br />
+  <div class ="holder">
+    <label for="departing">Departing date</label>
+    <input type="date" id="departing" placeholder="Departing date" required>
+    <br />
+  </div>
+  <div class="holder">
+    <label for="returning">Returning date</label>
+    <input type="date" id="returning" placeholder="Returning date" required>
+  </div>
+  <br />
+  <div class="holder">
+    <button id="generate" type="submit">Check</button>
+  </div>
+</form>
+<!-----end of the form -->
+
+<!-----start the result for the trip -->
+<div>
+
+<img class="responsive" src=" " alt="" id="pixa">
+</div>
+<div id="results">
+  <h1  id="place"></h1>
+  <h1  id="departure"></h1>
+  <h1 >Your trip info:</h1> 
+  <h4 >The weather info for this location :</h4>
+<p id="weather "></p>
+  <p>Temprature High: <span id="max_temp"></span></p>
+  <p>Temprature Low:  <span id="min_temp"></span></p> 
+</div>
+<footer >
+  <p>&copy Udacity   </p>
+  <p>Eman Abo Alsoud July 2020</p>  
+</footer>
+<script>
+  // Check that service workers are supported
+  if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
+</script>
+
+<script type="text/javascript" src="main.js"></script></body>
+</html>  
