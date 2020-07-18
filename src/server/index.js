@@ -58,7 +58,7 @@ function addPost(req, res) {
       min_temp: req.body.min_temp,
       city:req.body.city,
       description:req.body.description,
-      image:req.body.description
+      image:req.body.image
   }
   projectData.push(newEntry)
   res.send(projectData)
