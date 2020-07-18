@@ -35,9 +35,11 @@ dotenv.config();
 app.listen(8084, function () {
     console.log('Example app listening on port 8084!')
 })
-
 //----------------GET route-------------------------------
-
+app.get('/travelApp', sendData);
+function sendData(req, res) {
+  return res.send(projectData);
+};
 
  app.get('/travelApp', (req, res) => {
   res.send(projectData)
@@ -48,17 +50,21 @@ app.listen(8084, function () {
 app.post('/travelApp', addPost);
 
 function addPost(req, res) {
-    const data = req.body;
-  projectData['latitude'] = data['latitude'];
-  projectData['longitude'] = data['longitude'];
-  projectData['country'] = data['country'];
-  projectData['max_temp'] = data['max_temp'];
-  projectData['min_temp'] = data['min_temp'];
-  projectData['description'] = data['description'];
-  projectData['image'] = data['image'];
-    res.send(projectData)
-    console.log('POST')
-    console.log(projectData)
+    
+    newEntry = {
+      latitude: req.body.latitude,
+      country: req.body.country,
+      max_temp: req.body.max_temp,
+      min_temp: req.body.min_temp,
+      city:req.body.city,
+      description:req.body.description,
+      image:req.body.description
+  }
+  projectData.push(newEntry)
+  res.send(projectData)
+  console.log('POST')
+  console.log(projectData)
+
 }
 //-----------------------------------------------------
 module.exports = app;

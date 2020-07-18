@@ -39,7 +39,8 @@ function performAction(event){
           postData('http://localhost:8084/travelApp', {
             'Maximum temp': webitResult[0],
             'Minimum temp': webitResult[1],
-            'Description': webitResult[2],    
+            'Description': webitResult[2],
+            'timezone'    :webitResult[3]
           })
     
           updateUI(webitResult);
@@ -89,8 +90,9 @@ const getWebitData = async (webitURL) => {
     const min = webitdata.data[0].low_temp;
     console.log('min temp:'+min);
     const desc = webitdata.data[0].weather.description;
-    console.log('description:'+desc);
-    const webitResult = [max, min, desc];
+    const timezone = webitdata.data[0].timezone;
+    console.log('place:'+timezone);
+    const webitResult = [max, min, desc,timezone];
 
     return webitResult;
   } catch (error) {
@@ -116,10 +118,11 @@ const updateUI = async (webitResult) => {
  
   try {
     const webitResult=await request.jason();
-    document.getElementById('max_temp').innerHTML = webitResult[0];
-    document.getElementById('min_temp').innerHTML = webitResult[1];
-    document.getElementById('weather').innerHTML = webitResult[2];
-
+    document.getElementById('timezone').innerHTML = "your destination is going to be to "+webitResult[3];
+    document.getElementById('max_temp').innerHTML = "The Max Temp :"+webitResult[0];
+    document.getElementById('min_temp').innerHTML = "The Min Temp:"+webitResult[1];
+    document.getElementById('weather').innerHTML = "The weather seams "+webitResult[2];
+    
   } catch (error) {
     console.log("error", error);
   }
