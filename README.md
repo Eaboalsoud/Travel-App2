@@ -1,4 +1,17 @@
-## Install all the loaders and plugins:
+#Travel App
+This project is a travel app that obtains a desired trip location & date from the user, and displays weather and an image of the location using information obtained from external APIs.
+
+ ### Tools:
+  HTML, CSS, Vanilla JS, Webpack, Service workers and Jest for testing.
+
+
+### API's :
+- Geonames to get the latitude and longitude and the country.
+- Weatherbit to get the weather description and the low and high temp .
+- Pixabay to get a picture for your destination 
+### Getting started
+you need to clone the project and and install all the loader and plugins.
+##  list of the all the loaders and plugins you need :
 ` $ npm install express `
 ` $ npm install node `
 ` $ npm install body-parser `
@@ -21,3 +34,5 @@
 ### Open 2nd terminal 
 ` $ npm run build-prod `
 ` $ npm start `
+### To run test 
+`npm run test`
