@@ -117,14 +117,10 @@ const getPixaData = async (pixaURL) => {
 //--------------updateUI----for the webitResult--------------------------------
 
 const updateUI = async (webitResult) => {
-  const request = await fetch('/travelApp');
- 
+  const request = await fetch('/travelApp'); 
   try {
-    const webitResult=await request.json();
-    
     document.getElementById('max_temp').innerHTML = "The Max Temp :"+webitResult[0];
     document.getElementById('min_temp').innerHTML = "The Min Temp:"+webitResult[1];
-   
     document.getElementById('country').innerHTML = "your destination is going to be to "+webitResult[2];
   } catch (error) {
     console.log("error", error);
