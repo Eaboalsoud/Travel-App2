@@ -1,5 +1,5 @@
 body{
-    background: #fffff8;
+    background:  #F7F7F7;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -11,8 +11,8 @@ body{
     margin: 10px 0;
     padding: 10px 0;
     height:10vh;
-    background: #a9f2fc;
-    color: black;
+    background: #3B5998;
+    color: white;
     justify-content: center;
     grid-gap: 1em;
     font-size: 20px;
@@ -20,7 +20,7 @@ body{
 }
 
 .holder{
-    color: darkgreen;
+    color:#101420;
 
 }
 
@@ -31,19 +31,19 @@ body{
 }
 
 #entryHolder{
-    color: darkgreen;
+    color:#DFE3EE;
 }
 
 #date{
-    color: darkgreen;
+    color: #DFE3EE;
 }
 
 #temp{
-    color: darkgreen;
+    color: #DFE3EE;
 }
 
 #content{
-color: darkgreen;
+color: #DFE3EE;
 }
 
 .headline {
@@ -64,13 +64,13 @@ label{
 
 input{
     display:block;
-    height: 60px;
-    width: 320px;
-    background:#22b2da;
-    color: #f0d43a;
+    height: 40px;
+    width: 200px;
+    background:#8B9DC3;
+    color:  #3B5998;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
-    border-radius: 7px;
+    border-radius: 4px;
    
 }
 
@@ -82,7 +82,7 @@ button{
     font-size: 18px;
     border: none;
     outline: none;
-    background-color: rgba(0, 183, 255, 10);
+    background-color: #3B5998;
     color: white;
     cursor: pointer;
     padding: 15px;
@@ -92,8 +92,8 @@ h1{
     font-size: 36px;
 }
 textarea{
-    background:#22b2da;
-    color: #f0d43a;
+    background: white;
+    color: #3B5998;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
 }
@@ -106,19 +106,19 @@ button:focus {
 }
 /* Style for Placeholder Text*/
 ::placeholder { /* Firefox, Chrome, Opera */ 
-    color: #f0d43a; 
+    color: #3B5998; 
     font-family: 'Oswald', sans-serif;
 
 } 
   
 :-ms-input-placeholder { /* Internet Explorer 10-11 */ 
-    color: #f0d43a; 
+    color:#3B5998; 
     font-family: 'Oswald', sans-serif;
 
 } 
   
 ::-ms-input-placeholder { /* Microsoft Edge */ 
-    color: #f0d43a; 
+    color:#3B5998; 
     font-family: 'Oswald', sans-serif;
 
 } 
@@ -130,4 +130,7 @@ button:hover {
 .responsive {
     max-width: 100%;
     height: auto;
+    border-radius: 4px;
+    border-color: #3B5998;
+    box-sizing: 2px;
   }

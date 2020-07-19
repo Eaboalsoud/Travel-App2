@@ -3,11 +3,11 @@
 let d = new Date();
 let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 const user = "eaboalsoud";
-const geoNamesURL = "http://api.geonames.org/searchJSON?name=" + city + "&maxRows=1&username=" + user;
+//const geoNamesURL = "http://api.geonames.org/searchJSON?name=" + city + "&maxRows=1&username=" + user;
 const webitKey = "e5b4e4c828c5457fb6bfbfc11fb569f0";
 const pixaKey = "17522404-f14618c3d248a5bbc6622262e";
 const res = document.getElementById("results");
-const pixaURL = "https://pixabay.com/api/?key=" + pixaKey + "&q=" + city + "&image_type=photo";
+//const pixaURL = "https://pixabay.com/api/?key=" + pixaKey + "&q=" + city + "&image_type=photo";
 // Event listener to add function to existing HTML DOM element
 document.getElementById('generate').addEventListener('click', performAction);
 
@@ -33,6 +33,7 @@ function performAction(event){
         'longitude': geoResult[1],
         'country': geoResult[2],
       })
+      updategeo(geoResult);
      //----------------- send the data(key,lat,lon,startdate,enddate) to weatherbit-----------------
     //https://api.weatherbit.io/v2.0/history/daily?key=e5b4e4c828c5457fb6bfbfc11fb569f0&lat=40.71427&lon=-74.00597&start_date=2020-11-22&end_date=2020-11-23&
       getWebitData("http://api.weatherbit.io/v2.0/forecast/daily?key=" + webitKey + "&lat=" + geoResult[0] + "&lon=" + geoResult[1]+"&start_date="+startDate+"&end_date="+endDate)
@@ -64,13 +65,10 @@ const getGeoData = async (geoNamesURL) => {
   const response = await fetch(geoNamesURL);
   try {
     let geodata = await response.json();
-    console.log(geodata.geonames);
+    
     const lat = geodata.geonames[0].lat;
-    console.log('lat:'+lat);
     const lng = geodata.geonames[0].lng;
-    console.log('lng:'+lng);
-    const country = geodata.geonames[0].countryName;
-    console.log('country:'+country);
+    const country = geodata.geonames[0].countryName; 
     const geoResult = [lat, lng, country];
     console.log('geoResult:'+geoResult)
     return geoResult;
@@ -85,15 +83,15 @@ const getWebitData = async (webitURL) => {
   const response = await fetch(webitURL);
   try {
     let webitdata = await response.json();
-    console.log('webitdata'+webitdata);
+    console.log('webitdata'+webitdata.data);
     const max = webitdata.data[0].max_temp;
     console.log('max temp:'+max);
     const min = webitdata.data[0].low_temp;
     console.log('min temp:'+min);
     const desc = webitdata.data[0].weather.description;
     console.log('desc:'+desc);
-    const country = webitdata.data[0].country;
-    console.log('country:'+country);
+    const country = webitdata.data[0].weather.icon;
+    console.log('weather.icon:'+country);
     const webitResult = [max, min, desc,country];
 
     return webitResult;
@@ -121,11 +119,22 @@ const updateUI = async (webitResult) => {
   try {
     document.getElementById('max_temp').innerHTML = "The Max Temp :"+webitResult[0];
     document.getElementById('min_temp').innerHTML = "The Min Temp:"+webitResult[1];
-    document.getElementById('country').innerHTML = "your destination is going to be to "+webitResult[2];
+    document.getElementById('weather').innerHTML = " Typical weather for then is: "+webitResult[2];
   } catch (error) {
     console.log("error", error);
   }
 }
+//---------------------------------------------------------------------
+const updategeo = async (geoResult) => {
+  const request = await fetch('/travelApp'); 
+  try {
+    
+    document.getElementById('country').innerHTML = " you are going to visit : "+geoResult[2];
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
 //-------------updatePixa--------------------------------------
 const updatePixa = async (imageurl) => {
   const request = await fetch('/travelApp');
