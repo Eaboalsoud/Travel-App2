@@ -1,6 +1,7 @@
 
 /* Global Variables */
-
+let d = new Date();
+let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 const user = "eaboalsoud";
 const geoNamesURL = "http://api.geonames.org/searchJSON?name=" + city + "&maxRows=1&username=" + user;
 const webitKey = "e5b4e4c828c5457fb6bfbfc11fb569f0";
@@ -40,7 +41,7 @@ function performAction(event){
             'Maximum temp': webitResult[0],
             'Minimum temp': webitResult[1],
             'Description': webitResult[2],
-            'timezone'    :webitResult[3]
+            'country'    :webitResult[3]
           })
     
           updateUI(webitResult);
@@ -84,22 +85,24 @@ const getWebitData = async (webitURL) => {
   const response = await fetch(webitURL);
   try {
     let webitdata = await response.json();
-    console.log(webitdata);
+    console.log('webitdata'+webitdata);
     const max = webitdata.data[0].max_temp;
     console.log('max temp:'+max);
     const min = webitdata.data[0].low_temp;
     console.log('min temp:'+min);
     const desc = webitdata.data[0].weather.description;
-    const timezone = webitdata.data[0].timezone;
-    console.log('place:'+timezone);
-    const webitResult = [max, min, desc,timezone];
+    console.log('desc:'+desc);
+    const country = webitdata.data[0].country;
+    console.log('country:'+country);
+    const webitResult = [max, min, desc,country];
 
     return webitResult;
   } catch (error) {
     console.log('Retrieval Error:', error);
   }
 }
-//get data from pixabay
+//--------------get data from pixabay-----------------------------------
+
 const getPixaData = async (pixaURL) => {
   const response = await fetch(pixaURL);
   try {
@@ -111,28 +114,28 @@ const getPixaData = async (pixaURL) => {
   }
 }
 
-//-------------------------------------------------------------
-//UI function
+//--------------updateUI----for the webitResult--------------------------------
+
 const updateUI = async (webitResult) => {
   const request = await fetch('/travelApp');
  
   try {
-    const webitResult=await request.jason();
-    document.getElementById('timezone').innerHTML = "your destination is going to be to "+webitResult[3];
+    const webitResult=await request.json();
+    
     document.getElementById('max_temp').innerHTML = "The Max Temp :"+webitResult[0];
     document.getElementById('min_temp').innerHTML = "The Min Temp:"+webitResult[1];
-    document.getElementById('weather').innerHTML = "The weather seams "+webitResult[2];
-    
+   
+    document.getElementById('country').innerHTML = "your destination is going to be to "+webitResult[2];
   } catch (error) {
     console.log("error", error);
   }
 }
-
+//-------------updatePixa--------------------------------------
 const updatePixa = async (imageurl) => {
   const request = await fetch('/travelApp');
   try {
     document.getElementById('pixa').setAttribute('src', imageurl);
-
+    
   } catch (error) {
     console.log("error", error);
   }
