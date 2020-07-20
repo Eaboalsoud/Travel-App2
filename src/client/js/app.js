@@ -3,16 +3,12 @@
 let d = new Date();
 let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 const user = "eaboalsoud";
-//const geoNamesURL = "http://api.geonames.org/searchJSON?name=" + city + "&maxRows=1&username=" + user;
 const webitKey = "e5b4e4c828c5457fb6bfbfc11fb569f0";
 const pixaKey = "17522404-f14618c3d248a5bbc6622262e";
-const res = document.getElementById("results");
-//const pixaURL = "https://pixabay.com/api/?key=" + pixaKey + "&q=" + city + "&image_type=photo";
+
 // Event listener to add function to existing HTML DOM element
 document.getElementById('generate').addEventListener('click', performAction);
-
 //--------- Function called by event listener performAction -------------
-
 function performAction(event){
   event.preventDefault()
     let today = new Date().getTime();
@@ -20,11 +16,13 @@ function performAction(event){
     console.log('today is:'+today);
     let city=  document.getElementById('city').value;
     console.log('city:'+city);
+    Client.checkCity(city)
     let startDate =document.getElementById('departing').value;
     console.log('departing:'+startDate);
     let endDate =document.getElementById('returning').value;
     console.log('returning:'+endDate);
 
+     daysLeft(startDate,endDate);
     //------------------send the data(city+userkey) to GeoNames - and get (lat,lon,contry)---------------------------  
     getGeoData("http://api.geonames.org/searchJSON?name=" + city + "&maxRows=1&username=" + user)
     .then(function (geoResult) {
@@ -35,7 +33,6 @@ function performAction(event){
       })
       updategeo(geoResult);
      //----------------- send the data(key,lat,lon,startdate,enddate) to weatherbit-----------------
-    //https://api.weatherbit.io/v2.0/history/daily?key=e5b4e4c828c5457fb6bfbfc11fb569f0&lat=40.71427&lon=-74.00597&start_date=2020-11-22&end_date=2020-11-23&
       getWebitData("http://api.weatherbit.io/v2.0/forecast/daily?key=" + webitKey + "&lat=" + geoResult[0] + "&lon=" + geoResult[1]+"&start_date="+startDate+"&end_date="+endDate)
         .then(function (webitResult) {
           postData('http://localhost:8084/travelApp', {
@@ -44,7 +41,6 @@ function performAction(event){
             'Description': webitResult[2],
             'country'    :webitResult[3]
           })
-    
           updateUI(webitResult);
         })
     });
@@ -65,7 +61,6 @@ const getGeoData = async (geoNamesURL) => {
   const response = await fetch(geoNamesURL);
   try {
     let geodata = await response.json();
-    
     const lat = geodata.geonames[0].lat;
     const lng = geodata.geonames[0].lng;
     const country = geodata.geonames[0].countryName; 
@@ -83,17 +78,15 @@ const getWebitData = async (webitURL) => {
   const response = await fetch(webitURL);
   try {
     let webitdata = await response.json();
-    console.log('webitdata'+webitdata.data);
     const max = webitdata.data[0].max_temp;
     console.log('max temp:'+max);
     const min = webitdata.data[0].low_temp;
     console.log('min temp:'+min);
     const desc = webitdata.data[0].weather.description;
     console.log('desc:'+desc);
-    const country = webitdata.data[0].weather.icon;
-    console.log('weather.icon:'+country);
+    const country = webitdata.data[0].timezone;
+    console.log('timezone:'+country);
     const webitResult = [max, min, desc,country];
-
     return webitResult;
   } catch (error) {
     console.log('Retrieval Error:', error);
@@ -114,12 +107,12 @@ const getPixaData = async (pixaURL) => {
 
 //--------------updateUI----for the webitResult--------------------------------
 
-const updateUI = async (webitResult) => {
-  const request = await fetch('/travelApp'); 
+const updateUI = async (webitResult) => { 
+  const request = await fetch('/travelApp');
   try {
-    document.getElementById('max_temp').innerHTML = "The Max Temp :"+webitResult[0];
-    document.getElementById('min_temp').innerHTML = "The Min Temp:"+webitResult[1];
-    document.getElementById('weather').innerHTML = " Typical weather for then is: "+webitResult[2];
+    document.getElementById('max_temp').innerHTML = "The Max Temp: "+webitResult[0]+' °C';
+    document.getElementById('min_temp').innerHTML = "The Min Temp: "+webitResult[1]+ ' °C';
+    document.getElementById('weather').innerHTML = " Typical weather for then is: "+webitResult[2];  
   } catch (error) {
     console.log("error", error);
   }
@@ -127,9 +120,28 @@ const updateUI = async (webitResult) => {
 //---------------------------------------------------------------------
 const updategeo = async (geoResult) => {
   const request = await fetch('/travelApp'); 
-  try {
-    
+  try {  
     document.getElementById('country').innerHTML = " you are going to visit : "+geoResult[2];
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+//-------------------------------------------------------------
+const daysLeft = async (startDate,endDate) => {
+  const request = await fetch('/travelApp'); 
+    const sday=startDate;
+    const eday=endDate;
+    const today = (Date.now()) / 1000;
+    const time1 = (new Date(sday).getTime()) / 1000;
+    const time2 = (new Date(eday).getTime()) / 1000;
+    const daysLeft = Math.round((time1 - today) / 86400);
+    const duration = Math.round((time2 - time1) / 86400);
+    try {
+    document.getElementById('departure').innerHTML = " Your trip info:" ;  
+    document.getElementById('today').innerHTML = " Today is  : " +d;  
+    document.getElementById('daysLeft').innerHTML = " Your trip will be after : " +daysLeft+" days.";
+    document.getElementById('duration').innerHTML = " Your trip duration will be for  : " + duration+" days.";
+  
   } catch (error) {
     console.log("error", error);
   }
@@ -145,8 +157,6 @@ const updatePixa = async (imageurl) => {
     console.log("error", error);
   }
 }
-
-
 //--------------postData--------------------------------------
 const postData = async (url = '', data = {}) => {
   console.log(data);

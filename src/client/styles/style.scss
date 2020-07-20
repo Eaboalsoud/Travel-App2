@@ -15,7 +15,7 @@ body{
     color: white;
     justify-content: center;
     grid-gap: 1em;
-    font-size: 20px;
+    font-size: 3em;
     font-family: 'Oswald', sans-serif;
 }
 
@@ -67,7 +67,7 @@ input{
     height: 40px;
     width: 200px;
     background:#8B9DC3;
-    color:  #3B5998;
+    color:  #05112b;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
     border-radius: 4px;
@@ -90,10 +90,15 @@ button{
 }
 h1{
     font-size: 36px;
+
+}
+p{
+color:#23314e;
+
 }
 textarea{
     background: white;
-    color: #3B5998;
+    color:#23314e;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
 }
