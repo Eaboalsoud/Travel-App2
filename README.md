@@ -8,12 +8,12 @@ This project is a travel app that obtains a desired trip location & date from th
 
 
 ### API's :
-- Geonames to get the latitude and longitude and the country.
+- Geonames to get the latitude ,longitude and the country.
 - Weatherbit to get the weather description and the low and high temp .
 - Pixabay to get a picture for your destination 
 ### Getting started
-you need to clone the project and and install all the loader and plugins.
-#### list of the all the loaders and plugins you need :
+you need to clone the project and install all the loaders and plugins.
+#### list of all the loaders and plugins you need :
 ``` 
  $ npm install express 
  $ npm install node 
